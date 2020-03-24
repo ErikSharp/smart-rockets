@@ -1,5 +1,14 @@
-$color: cornflowerblue;
+$color: gainsboro;
 
 body {
     background: $color;
+}
+
+.p5Canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 }
