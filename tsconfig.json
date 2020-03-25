@@ -3,6 +3,7 @@
         "outDir": "./dist/",
         "noImplicitAny": true,
         "module": "esNext",
+        "moduleResolution": "node",
         "target": "esNext",
         "sourceMap": true,
         //apparently these next two are needed for lodash as there is no default export
