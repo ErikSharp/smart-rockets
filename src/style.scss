@@ -1,7 +1,10 @@
-$color: gainsboro;
+$primary-color: gainsboro;
+$secondary-color: #777;
 
 body {
-    background: $color;
+    margin: 0;
+    background: linear-gradient($primary-color, $secondary-color);
+    height: 100vh;
 }
 
 .p5Canvas {
@@ -10,5 +13,5 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 25px 0px rgba(0, 0, 0, 0.75);
 }
