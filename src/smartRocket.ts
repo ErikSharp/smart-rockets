@@ -4,11 +4,11 @@ import { Dna } from "./dna";
 export class SmartRocket {
     static readonly lifespan = 200;
     static count = 0;
-    p: p5;
-    pos: Vector;
-    vel: Vector;
-    acc: Vector;
-    dna = new Dna();
+    private p: p5;
+    private pos: Vector;
+    private vel: Vector;
+    private acc: Vector;
+    private dna = new Dna();
 
     constructor(p: p5) {
         this.p = p;

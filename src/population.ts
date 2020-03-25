@@ -2,8 +2,8 @@ import p5, { Vector } from "p5";
 import { SmartRocket } from "./smartRocket";
 
 export class Population {
-    rockets: SmartRocket[] = [];
-    popSize = 100;
+    private rockets: SmartRocket[] = [];
+    private popSize = 100;
 
     constructor(p: p5) {
         for (let index = 0; index < this.popSize; index++) {
