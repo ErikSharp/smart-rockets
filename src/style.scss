@@ -7,6 +7,15 @@ body {
     height: 100vh;
 }
 
+p {
+    margin: 0;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    font-family: sans-serif;
+    font-size: 48px;
+}
+
 .p5Canvas {
     position: absolute;
     top: 50%;

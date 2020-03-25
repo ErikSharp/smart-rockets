@@ -3,12 +3,12 @@ import { Dna } from "./dna";
 
 export class SmartRocket {
     static readonly lifespan = 200;
+    static count = 0;
     p: p5;
     pos: Vector;
     vel: Vector;
     acc: Vector;
     dna = new Dna();
-    count = 0;
 
     constructor(p: p5) {
         this.p = p;
@@ -22,8 +22,7 @@ export class SmartRocket {
     }
 
     update() {
-        this.applyForce(this.dna.genes[this.count]);
-        this.count++;
+        this.applyForce(this.dna.genes[SmartRocket.count]);
 
         this.vel.add(this.acc);
         this.pos.add(this.vel);
