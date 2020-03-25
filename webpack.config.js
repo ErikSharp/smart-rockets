@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -12,6 +13,9 @@ module.exports = {
         contentBase: "./dist"
     },
     plugins: [
+        //this will clear the dist folder before building
+        //https://www.npmjs.com/package/clean-webpack-plugin
+        new CleanWebpackPlugin(),
         //manages the creation of the index.html file
         //https://github.com/jantimon/html-webpack-plugin
         new HtmlWebpackPlugin({
