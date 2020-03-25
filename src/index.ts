@@ -8,7 +8,7 @@ const sketch = (p: p5) => {
     let boxes: BouncyBox[] = [];
 
     p.setup = function() {
-        p.createCanvas(700, 410);
+        p.createCanvas(innerWidth * 0.8, innerHeight * 0.8);
         for (let index = 0; index < 10; index++) {
             boxes[index] = new BouncyBox(p);
         }
