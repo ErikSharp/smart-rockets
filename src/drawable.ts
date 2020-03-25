@@ -1,3 +1,3 @@
-export interface drawable {
+export interface Drawable {
     draw(): void;
 }

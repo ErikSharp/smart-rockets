@@ -1,8 +1,8 @@
 import p5, { Vector } from "p5";
-import { drawable } from "./drawable";
-import { updatable } from "./updatable";
+import { Drawable } from "./drawable";
+import { Updatable } from "./updatable";
 
-export class BouncyBox implements drawable, updatable {
+export class BouncyBox implements Drawable, Updatable {
     pos: Vector;
     vel: Vector;
     p: p5;
