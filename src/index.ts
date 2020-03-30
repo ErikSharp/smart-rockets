@@ -24,7 +24,11 @@ const sketch = (p: p5) => {
         population.run();
         lifeP.html(`Rocket lifespan: ${env.count.toString()}`);
         env.count++;
-        env.count %= env.lifespan;
+        if (env.count == env.lifespan - 1) {
+            population.evaluate();
+            population.selection();
+            env.count = 0;
+        }
     };
 };
 
