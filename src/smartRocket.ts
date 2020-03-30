@@ -1,17 +1,13 @@
 import p5, { Vector } from "p5";
 import { Dna } from "./dna";
+import { Environment } from "./environment";
 
 export class SmartRocket {
-    static readonly lifespan = 200;
-    static count = 0;
-    private p: p5;
     private pos: Vector;
     private vel: Vector;
     private acc: Vector;
-    private dna = new Dna();
 
-    constructor(p: p5) {
-        this.p = p;
+    constructor(private p: p5, private env: Environment, private dna: Dna) {
         this.pos = p.createVector(p.width / 2, p.height);
         this.vel = p.createVector();
         this.acc = p.createVector();
@@ -22,7 +18,7 @@ export class SmartRocket {
     }
 
     update() {
-        this.applyForce(this.dna.genes[SmartRocket.count]);
+        this.applyForce(this.dna.genes[this.env.count]);
 
         this.vel.add(this.acc);
         this.pos.add(this.vel);
