@@ -11,7 +11,7 @@ export class Dna {
 
             for (let index = 0; index < this.genes.length; index++) {
                 this.genes[index] = Vector.random2D();
-                this.genes[index].setMag(0.3);
+                this.genes[index].setMag(0.5);
             }
         } else {
             this.genes = genes;
@@ -20,9 +20,9 @@ export class Dna {
 
     crossover(partner: Dna) {
         let childGenes: Vector[] = [];
-        let midPoint = this.p.floor(this.p.random(this.genes.length));
+        //let midPoint = this.p.floor(this.p.random(this.genes.length));
         for (let i = 0; i < this.genes.length; i++) {
-            if (i < midPoint) {
+            if (this.p.floor(this.p.random(100)) % 2 === 0) {
                 childGenes[i] = this.genes[i];
             } else {
                 childGenes[i] = partner.genes[i];

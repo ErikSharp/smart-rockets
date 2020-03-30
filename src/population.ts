@@ -45,7 +45,10 @@ export class Population {
         for (let i = 0; i < this.rockets.length; i++) {
             //There is the possibility that the parents will be the same
             let parentA: SmartRocket = this.p.random(this.matingPool);
-            let parentB: SmartRocket = this.p.random(this.matingPool);
+            let parentB: SmartRocket;
+            do {
+                parentB = this.p.random(this.matingPool);
+            } while (parentA === parentB);
 
             let childDna = parentA.dna.crossover(parentB.dna);
             newRockets[i] = new SmartRocket(this.p, this.env, childDna);
