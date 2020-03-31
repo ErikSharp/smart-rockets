@@ -22,12 +22,16 @@ const sketch = (p: p5) => {
         p.background(0);
         p.ellipse(env.targetPos.x, env.targetPos.y, 16, 16);
         population.run();
-        lifeP.html(`Rocket lifespan: ${env.count.toString()}`);
+        lifeP.html(
+            `Rockets generation: ${env.generation}, lifespan: ${env.lifespan -
+                env.count}`
+        );
         env.count++;
         if (env.count == env.lifespan - 1) {
             population.evaluate();
             population.selection();
             env.count = 0;
+            env.generation++;
         }
     };
 };

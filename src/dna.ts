@@ -20,12 +20,17 @@ export class Dna {
 
     crossover(partner: Dna) {
         let childGenes: Vector[] = [];
-        //let midPoint = this.p.floor(this.p.random(this.genes.length));
+        let midPoint = this.p.floor(this.p.random(this.genes.length));
+        let mutationPool = 1 / this.env.mutationAmount;
         for (let i = 0; i < this.genes.length; i++) {
-            if (this.p.floor(this.p.random(100)) % 2 === 0) {
-                childGenes[i] = this.genes[i];
+            if (this.p.random(mutationPool) > 1) {
+                if (i > midPoint) {
+                    childGenes[i] = this.genes[i];
+                } else {
+                    childGenes[i] = partner.genes[i];
+                }
             } else {
-                childGenes[i] = partner.genes[i];
+                childGenes[i] = Vector.random2D();
             }
         }
 
