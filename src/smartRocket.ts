@@ -57,7 +57,7 @@ export class SmartRocket {
 
         if (this._exploded) {
             //pretend that it is really far away
-            d = 9999999;
+            d = Number.MAX_SAFE_INTEGER;
         } else {
             d = this.p.dist(
                 this.pos.x,
