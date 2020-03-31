@@ -6,12 +6,12 @@ export class SmartRocket {
     private pos: Vector;
     private vel: Vector;
     private acc: Vector;
-    exploded = false;
+    private _exploded = false;
     private explosionFrame = 0;
     private explosionSize = 50;
     private explosionFrames = 20;
     private explosionComplete = false;
-    fitness: number;
+    _fitness: number;
 
     constructor(private p: p5, private env: Environment, public dna: Dna) {
         this.pos = p.createVector(p.width / 2, p.height - p.height / 8);
@@ -19,12 +19,20 @@ export class SmartRocket {
         this.acc = p.createVector();
     }
 
+    get exploded() {
+        return this._exploded;
+    }
+
+    get fitness() {
+        return this._fitness;
+    }
+
     private applyForce(force: Vector) {
         this.acc.add(force);
     }
 
     update() {
-        if (this.exploded) {
+        if (this._exploded) {
             return;
         }
 
@@ -40,14 +48,14 @@ export class SmartRocket {
             this.pos.y > this.p.height ||
             this.pos.y < 0
         ) {
-            this.exploded = true;
+            this._exploded = true;
         }
     }
 
     calcFitness() {
         let d: number;
 
-        if (this.exploded) {
+        if (this._exploded) {
             //pretend that it is really far away
             d = 9999999;
         } else {
@@ -64,34 +72,44 @@ export class SmartRocket {
             d += 0.000001;
         }
         //the closer we are the bigger the fitness
-        this.fitness = 1 / d;
+        this._fitness = 1 / d;
     }
 
     draw() {
-        if (this.exploded) {
-            if (!this.explosionComplete) {
-                this.p.push();
-                this.p.fill(255, 255 - this.explosionFrame * 10);
-                this.p.ellipseMode("center");
-                this.p.ellipse(
-                    this.pos.x,
-                    this.pos.y,
-                    this.explosionSize - this.explosionFrame * 2
-                );
-                this.explosionFrame++;
-                if (this.explosionFrame > this.explosionFrames) {
-                    this.explosionComplete = true;
-                }
-                this.p.pop();
-            }
+        if (this._exploded) {
+            this.drawExplosion();
         } else {
+            this.drawRocket();
+        }
+    }
+
+    drawRocket() {
+        this.p.push();
+        this.p.noStroke();
+        this.p.fill(255, 150);
+        this.p.translate(this.pos.x, this.pos.y);
+        let foo = this.vel.heading();
+        this.p.rotate(foo + this.p.HALF_PI);
+        this.p.stroke(255, 150);
+        this.p.noFill();
+        this.p.triangle(0, 15, 3, 0, 6, 15);
+        this.p.pop();
+    }
+
+    drawExplosion() {
+        if (!this.explosionComplete) {
             this.p.push();
-            this.p.noStroke();
-            this.p.fill(255, 150);
-            this.p.translate(this.pos.x, this.pos.y);
-            this.p.rotate(this.vel.heading());
-            this.p.rectMode(this.p.CENTER);
-            this.p.rect(0, 0, 25, 5);
+            this.p.fill(255, 255 - this.explosionFrame * 10);
+            this.p.ellipseMode(this.p.CENTER);
+            this.p.ellipse(
+                this.pos.x,
+                this.pos.y,
+                this.explosionSize - this.explosionFrame * 2
+            );
+            this.explosionFrame++;
+            if (this.explosionFrame > this.explosionFrames) {
+                this.explosionComplete = true;
+            }
             this.p.pop();
         }
     }

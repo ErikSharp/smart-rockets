@@ -19,20 +19,20 @@ export class Population {
         for (let i = 0; i < this.popSize; i++) {
             let rocket = this.rockets[i];
             rocket.calcFitness();
-            if (rocket.fitness > maxFit) {
-                maxFit = rocket.fitness;
+            if (rocket._fitness > maxFit) {
+                maxFit = rocket._fitness;
             }
         }
 
         //normalize all the values
         for (let i = 0; i < this.popSize; i++) {
-            this.rockets[i].fitness /= maxFit;
+            this.rockets[i]._fitness /= maxFit;
         }
 
         //put more rockets with a higher fitness into the matingPool
         this.matingPool = [];
         for (let i = 0; i < this.popSize; i++) {
-            let n = this.rockets[i].fitness * 100;
+            let n = this.rockets[i]._fitness * 100;
             for (let j = 0; j < n; j++) {
                 this.matingPool.push(this.rockets[i]);
             }

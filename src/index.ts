@@ -19,6 +19,7 @@ const sketch = (p: p5) => {
     };
 
     p.draw = function() {
+        env.update();
         p.background(0);
         p.ellipse(env.targetPos.x, env.targetPos.y, 16, 16);
         population.run();
