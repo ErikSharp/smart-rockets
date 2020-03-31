@@ -53,13 +53,13 @@ export class SmartRocket {
     }
 
     calcFitness() {
-        let d: number;
+        let distFromTarget: number;
 
         if (this._exploded) {
             //pretend that it is really far away
-            d = Number.MAX_SAFE_INTEGER;
+            distFromTarget = Number.MAX_SAFE_INTEGER;
         } else {
-            d = this.p.dist(
+            distFromTarget = this.p.dist(
                 this.pos.x,
                 this.pos.y,
                 this.env.targetPos.x,
@@ -68,11 +68,11 @@ export class SmartRocket {
         }
 
         //protect against divide by zero
-        if (d === 0) {
-            d += 0.000001;
+        if (distFromTarget === 0) {
+            distFromTarget += 0.000001;
         }
         //the closer we are the bigger the fitness
-        this._fitness = 1 / d;
+        this._fitness = 1 / distFromTarget;
     }
 
     draw() {
