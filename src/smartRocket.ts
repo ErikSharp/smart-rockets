@@ -88,8 +88,7 @@ export class SmartRocket {
         this.p.noStroke();
         this.p.fill(255, 150);
         this.p.translate(this.pos.x, this.pos.y);
-        let foo = this.vel.heading();
-        this.p.rotate(foo + this.p.HALF_PI);
+        this.p.rotate(this.vel.heading() + this.p.HALF_PI);
         this.p.stroke(255, 150);
         this.p.noFill();
         this.p.triangle(0, 15, 3, 0, 6, 15);
