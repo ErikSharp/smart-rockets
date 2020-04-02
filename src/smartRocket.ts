@@ -1,8 +1,11 @@
 import p5, { Vector } from "p5";
 import { Dna } from "./dna";
 import { Environment } from "./environment";
+import { VaporTrail } from "./vaporTrail";
 
 export class SmartRocket {
+    private static Ids = 0;
+    private readonly id: number;
     private pos: Vector;
     private vel: Vector;
     private acc: Vector;
@@ -11,12 +14,17 @@ export class SmartRocket {
     private explosionSize = 50;
     private explosionFrames = 20;
     private explosionComplete = false;
+    private vaporTrail: VaporTrail;
     _fitness: number;
 
     constructor(private p: p5, private env: Environment, public dna: Dna) {
         this.pos = p.createVector(p.width / 2, p.height - p.height / 8);
         this.vel = p.createVector();
         this.acc = p.createVector();
+
+        this.id = ++SmartRocket.Ids;
+
+        this.vaporTrail = new VaporTrail(p);
     }
 
     get exploded() {
@@ -49,6 +57,8 @@ export class SmartRocket {
             this.pos.y < 0
         ) {
             this._exploded = true;
+        } else {
+            this.vaporTrail.update(this.pos, this.id);
         }
     }
 
@@ -80,6 +90,7 @@ export class SmartRocket {
             this.drawExplosion();
         } else {
             this.drawRocket();
+            this.vaporTrail.draw();
         }
     }
 

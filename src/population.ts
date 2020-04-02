@@ -5,7 +5,7 @@ import { Environment } from "./environment";
 
 export class Population {
     private rockets: SmartRocket[] = [];
-    private popSize = 100;
+    private popSize = 50;
     private matingPool: SmartRocket[] = [];
 
     constructor(private p: p5, private env: Environment) {
