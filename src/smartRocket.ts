@@ -90,20 +90,25 @@ export class SmartRocket {
             this.drawExplosion();
         } else {
             this.drawRocket();
-            this.vaporTrail.draw();
         }
     }
 
     drawRocket() {
         this.p.push();
         this.p.noStroke();
-        this.p.fill(255, 150);
         this.p.translate(this.pos.x, this.pos.y);
         this.p.rotate(this.vel.heading() + this.p.HALF_PI);
         this.p.stroke(255, 150);
-        this.p.noFill();
-        this.p.triangle(0, 15, 3, 0, 6, 15);
+        // this.p.noFill();
+        this.p.fill(0);
+        this.p.beginShape();
+        this.p.vertex(0, 0);
+        this.p.vertex(4, 15);
+        this.p.vertex(-4, 15);
+        this.p.endShape(this.p.CLOSE);
         this.p.pop();
+
+        this.vaporTrail.draw();
     }
 
     drawExplosion() {
