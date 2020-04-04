@@ -19,8 +19,9 @@ export class VaporTrail {
 
     draw() {
         this.p.push();
-        this.p.stroke(255);
         this.trail.foreach((pos, i, count) => {
+            let brightness = i / count;
+            this.p.stroke(brightness * 255);
             this.p.point(pos.x, pos.y);
         });
         this.p.pop();
