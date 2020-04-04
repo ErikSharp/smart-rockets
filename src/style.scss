@@ -1,19 +1,33 @@
 $primary-color: gainsboro;
 $secondary-color: #777;
 
-body {
+*,
+*::after,
+*::before {
     margin: 0;
+    padding: 0;
+
+    // We have set box-sizing in the body, so everything else
+    // will now inherit that setting
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    box-sizing: border-box;
     background: linear-gradient($primary-color, $secondary-color);
     height: 100vh;
 }
 
 p {
-    margin: 0;
     position: absolute;
     bottom: 10px;
     left: 20px;
     font-family: sans-serif;
-    font-size: 48px;
+    font-size: 4rem;
 }
 
 .p5Canvas {
