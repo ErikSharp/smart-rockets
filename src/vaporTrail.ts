@@ -2,41 +2,49 @@ import p5, { Vector } from "p5";
 
 export class VaporTrail {
     private trail: Vector[] = [];
-    private readonly trailLength = 30;
-    private trailIndex = -1;
-    private skip = true;
+    private readonly elementCount = 30;
+    private insertionIndex = 0; //closest to the rocket
 
     constructor(private p: p5) {}
 
     update(rocketPosition: Vector, id: number) {
-        if (!this.skip) {
-            this.trailIndex++;
-            this.trailIndex %= this.trailLength;
-            this.trail[this.trailIndex] = rocketPosition.copy();
-        }
+        this.trail[this.insertionIndex] = rocketPosition.copy();
+        this.insertionIndex++;
+        this.insertionIndex %= this.elementCount;
     }
 
     draw() {
-        if (this.skip) {
-            this.skip = false;
-        } else {
-            this.p.push();
-            for (
-                let index = this.trailIndex, i = 0;
-                i < this.trailLength;
-                index++, i++
-            ) {
-                let actualIndex = index % this.trailLength;
-                let particle = this.trail[actualIndex];
-                if (particle) {
-                    this.p.stroke(10 + i * 5);
-                    // this.p.rotate(particle.heading() + this.p.HALF_PI);
-                    this.p.point(particle.x + 5, particle.y + 5);
-                } else {
+        this.p.push();
+        this.p.stroke(255);
+        if (this.trail.length === this.elementCount) {
+            let last = this.getIndexBeforeInsertion();
+            for (let i = this.insertionIndex; ; i++) {
+                i %= this.elementCount;
+
+                let pos = this.trail[i];
+                this.p.point(pos.x, pos.y);
+
+                if (i === last) {
                     break;
                 }
             }
-            this.p.pop();
+        } else {
+            for (let i = 0; i < this.insertionIndex; i++) {
+                let pos = this.trail[i];
+                this.p.point(pos.x, pos.y);
+            }
         }
+        this.p.pop();
+    }
+
+    getIndexBeforeInsertion() {
+        let index: number;
+        if (this.insertionIndex === 0) {
+            index = this.elementCount - 1;
+        } else {
+            index = this.insertionIndex - 1;
+        }
+
+        return index;
     }
 }
