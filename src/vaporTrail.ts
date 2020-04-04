@@ -1,50 +1,28 @@
 import p5, { Vector } from "p5";
+import { CircularBuffer } from "./circularBuffer";
 
 export class VaporTrail {
-    private trail: Vector[] = [];
-    private readonly elementCount = 30;
-    private insertionIndex = 0; //closest to the rocket
+    private trail: CircularBuffer<Vector>;
+    private skipIndex = 0;
+    private skip = 2;
 
-    constructor(private p: p5) {}
+    constructor(private p: p5) {
+        this.trail = new CircularBuffer<Vector>(30);
+    }
 
     update(rocketPosition: Vector, id: number) {
-        this.trail[this.insertionIndex] = rocketPosition.copy();
-        this.insertionIndex++;
-        this.insertionIndex %= this.elementCount;
+        if (this.skipIndex % this.skip === 0) {
+            this.trail.add(rocketPosition.copy());
+        }
+        this.skipIndex++;
     }
 
     draw() {
         this.p.push();
         this.p.stroke(255);
-        if (this.trail.length === this.elementCount) {
-            let last = this.getIndexBeforeInsertion();
-            for (let i = this.insertionIndex; ; i++) {
-                i %= this.elementCount;
-
-                let pos = this.trail[i];
-                this.p.point(pos.x, pos.y);
-
-                if (i === last) {
-                    break;
-                }
-            }
-        } else {
-            for (let i = 0; i < this.insertionIndex; i++) {
-                let pos = this.trail[i];
-                this.p.point(pos.x, pos.y);
-            }
-        }
+        this.trail.foreach((pos, i, count) => {
+            this.p.point(pos.x, pos.y);
+        });
         this.p.pop();
-    }
-
-    getIndexBeforeInsertion() {
-        let index: number;
-        if (this.insertionIndex === 0) {
-            index = this.elementCount - 1;
-        } else {
-            index = this.insertionIndex - 1;
-        }
-
-        return index;
     }
 }
