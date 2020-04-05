@@ -1,5 +1,4 @@
 import p5, { Vector } from "p5";
-import { SmartRocket } from "./smartRocket";
 import { Environment } from "./environment";
 
 export class Dna {
