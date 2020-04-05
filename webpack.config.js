@@ -5,12 +5,12 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
     //mode: "development",
     entry: {
-        app: "./src/index.ts"
+        app: "./src/index.ts",
     },
     devtool: "source-map",
     //web server that serves the bundles from memory
     devServer: {
-        contentBase: "./dist"
+        contentBase: "./dist",
     },
     plugins: [
         //this will clear the dist folder before building
@@ -19,33 +19,33 @@ module.exports = {
         //manages the creation of the index.html file
         //https://github.com/jantimon/html-webpack-plugin
         new HtmlWebpackPlugin({
-            title: "P5 Typescript"
-        })
+            title: "Smart Rockets",
+        }),
     ],
     output: {
         filename: "[name].bundle.js",
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist"),
     },
     optimization: {
         splitChunks: {
-            chunks: "all"
-        }
+            chunks: "all",
+        },
     },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
                 use: "ts-loader",
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
             {
                 test: /\.s[ac]ss$/,
                 include: path.resolve(__dirname, "src"), //specifying the include makes it only do the files necessary
-                use: ["style-loader", "css-loader", "sass-loader"]
-            }
-        ]
+                use: ["style-loader", "css-loader", "sass-loader"],
+            },
+        ],
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js"]
-    }
+        extensions: [".tsx", ".ts", ".js"],
+    },
 };
