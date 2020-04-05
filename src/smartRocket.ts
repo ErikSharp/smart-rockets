@@ -2,6 +2,7 @@ import p5, { Vector } from "p5";
 import { Dna } from "./dna";
 import { Environment } from "./environment";
 import { VaporTrail } from "./vaporTrail";
+import { Explosion } from "./explosion";
 
 export class SmartRocket {
     private static Ids = 0;
@@ -10,12 +11,9 @@ export class SmartRocket {
     private vel: Vector;
     private acc: Vector;
     private _exploded = false;
-    private explosionFrame = 0;
-    private explosionSize = 50;
-    private explosionFrames = 20;
-    private explosionComplete = false;
+    private explosion: Explosion;
     private vaporTrail: VaporTrail;
-    _fitness: number;
+    fitness: number;
 
     constructor(private p: p5, private env: Environment, public dna: Dna) {
         this.pos = p.createVector(p.width / 2, p.height - p.height / 8);
@@ -25,14 +23,11 @@ export class SmartRocket {
         this.id = ++SmartRocket.Ids;
 
         this.vaporTrail = new VaporTrail(p);
+        this.explosion = new Explosion(p);
     }
 
     get exploded() {
         return this._exploded;
-    }
-
-    get fitness() {
-        return this._fitness;
     }
 
     private applyForce(force: Vector) {
@@ -41,6 +36,7 @@ export class SmartRocket {
 
     update() {
         if (this._exploded) {
+            this.explosion.update();
             return;
         }
 
@@ -57,6 +53,7 @@ export class SmartRocket {
             this.pos.y < 0
         ) {
             this._exploded = true;
+            this.explosion.position = this.pos;
         } else {
             this.vaporTrail.update(this.pos, this.id);
         }
@@ -82,18 +79,18 @@ export class SmartRocket {
             distFromTarget += 0.000001;
         }
         //the closer we are the bigger the fitness
-        this._fitness = 1 / distFromTarget;
+        this.fitness = 1 / distFromTarget;
     }
 
     draw() {
         if (this._exploded) {
-            this.drawExplosion();
+            this.explosion.draw();
         } else {
             this.drawRocket();
         }
     }
 
-    drawRocket() {
+    private drawRocket() {
         this.p.push();
         this.p.noStroke();
         this.p.translate(this.pos.x, this.pos.y);
@@ -109,23 +106,5 @@ export class SmartRocket {
         this.p.pop();
 
         this.vaporTrail.draw();
-    }
-
-    drawExplosion() {
-        if (!this.explosionComplete) {
-            this.p.push();
-            this.p.fill(255, 255 - this.explosionFrame * 10);
-            this.p.ellipseMode(this.p.CENTER);
-            this.p.ellipse(
-                this.pos.x,
-                this.pos.y,
-                this.explosionSize - this.explosionFrame * 2
-            );
-            this.explosionFrame++;
-            if (this.explosionFrame > this.explosionFrames) {
-                this.explosionComplete = true;
-            }
-            this.p.pop();
-        }
     }
 }

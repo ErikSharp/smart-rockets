@@ -1,40 +1,20 @@
 //import * as p5 from "p5/global";
 import p5 from "p5"; //if you are doing instance
-import { Population } from "./population";
-import { Environment } from "./environment";
+import { Sketch } from "./sketch";
 
 import "./style.scss";
 
-const sketch = (p: p5) => {
-    let population: Population;
-    let env: Environment;
-    let lifeP: p5.Element;
+const startFunc = (p: p5) => {
+    let sketch: Sketch;
 
     p.setup = function () {
-        p.createCanvas(innerWidth * 0.8, innerHeight * 0.8);
-        env = new Environment(p);
-        population = new Population(p, env);
-        lifeP = p.createP();
+        sketch = new Sketch(p);
     };
 
     p.draw = function () {
-        env.update();
-        p.background(0);
-        p.ellipse(env.targetPos.x, env.targetPos.y, 16, 16);
-        population.run();
-        lifeP.html(
-            `Rockets generation: ${env.generation}, lifespan: ${
-                env.lifespan - env.count
-            }`
-        );
-        env.count++;
-        if (env.count == env.lifespan - 1) {
-            population.evaluate();
-            population.selection();
-            env.count = 0;
-            env.generation++;
-        }
+        sketch.update();
+        sketch.draw();
     };
 };
 
-let myP5 = new p5(sketch);
+let myP5 = new p5(startFunc);

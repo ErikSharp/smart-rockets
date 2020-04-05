@@ -1,6 +1,7 @@
 import p5, { Vector } from "p5";
+import { Updatable } from "./updatable";
 
-export class Environment {
+export class Environment implements Updatable {
     count = 0;
     generation = 1;
     targetPos: Vector;
